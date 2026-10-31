@@ -1,0 +1,18 @@
+unity-project-check:
+  image: node:22
+  variables:
+    UNITY_PROJECT: "."
+  script:
+    - npm ci
+    - npm run compile
+    - node bin/unity-project-check.js --project "$UNITY_PROJECT" --baseline .unity-check-baseline.json --sarif > unity-check.sarif
+    - node scripts/bench.mjs "$UNITY_PROJECT"
+  artifacts:
+    when: always
+    paths:
+      - unity-check.sarif
+    reports:
+      sarif: unity-check.sarif
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

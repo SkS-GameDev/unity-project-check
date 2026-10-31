@@ -1,7 +1,7 @@
-# unity-project-lsp
+# unity-project-check
 
-Проверки структуры Unity-проекта: LSP-сервер для `.asmdef`/`.asmref` и CLI
-`unity-project-check`. Unity Editor не требуется.
+Проверки структуры Unity-проекта: CLI `unity-project-check` и LSP-сервер
+`unity-project-lsp` для `.asmdef`/`.asmref`. Unity Editor не требуется.
 
 ## Установка
 

@@ -1,7 +1,6 @@
 {
   "name": "unity-project-check",
   "version": "0.2.0",
-  "private": true,
   "type": "module",
   "bin": {
     "unity-project-lsp": "bin/unity-project-lsp.js",
@@ -11,7 +10,8 @@
     "compile": "tsc -p .",
     "test": "npm run compile && node --test out/test/*.test.js",
     "audit": "node scripts/audit.mjs . ../csharp-ls-unity ../unity-yaml-lsp",
-    "bench": "node scripts/bench.mjs"
+    "bench": "node scripts/bench.mjs",
+    "prepublishOnly": "npm run compile"
   },
   "dependencies": {
     "jsonc-parser": "^3.3.1",
@@ -24,5 +24,11 @@
     "@types/node": "^22.0.0",
     "typescript": "^5.9.3"
   },
-  "description": "Unity project structure checks: CLI and LSP"
+  "description": "Unity project structure checks: CLI and LSP",
+  "files": [
+    "bin",
+    "out",
+    "README.md",
+    "README.ru.md"
+  ]
 }

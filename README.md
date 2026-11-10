@@ -1,9 +1,11 @@
 # unity-project-check
 
-Проверки структуры Unity-проекта: CLI `unity-project-check` и LSP-сервер
-`unity-project-lsp` для `.asmdef`/`.asmref`. Unity Editor не требуется.
+[Русская версия](README.ru.md)
 
-## Установка
+Unity project structure checks: the `unity-project-check` CLI and the
+`unity-project-lsp` LSP server for `.asmdef`/`.asmref`. No Unity Editor required.
+
+## Installation
 
 ```sh
 npm install
@@ -11,7 +13,7 @@ npm run compile
 npm link
 ```
 
-Появятся две глобальные команды: `unity-project-lsp` и `unity-project-check`.
+This creates two global commands: `unity-project-lsp` and `unity-project-check`.
 
 ## OpenCode
 
@@ -24,7 +26,7 @@ npm link
 }
 ```
 
-`.asset`, `.prefab`, `.unity` и `.meta` остаются за `unity-yaml-lsp`.
+`.asset`, `.prefab`, `.unity` and `.meta` are left to `unity-yaml-lsp`.
 
 ## CLI
 
@@ -37,43 +39,43 @@ unity-project-check --project . --write-baseline .unity-check-baseline.json
 unity-project-check --project . --baseline .unity-check-baseline.json
 ```
 
-Флаги: `--asmdef`, `--manifest`, `--meta`, `--settings`, `--addressables`,
+Flags: `--asmdef`, `--manifest`, `--meta`, `--settings`, `--addressables`,
 `--localization`, `--prefabs`, `--shadergraph`, `--inputactions`, `--animator`,
 `--json`, `--sarif`, `--baseline <file>`, `--write-baseline <file>`,
 `--files <path...>`, `--max-file-size <size>`, `--project <path>`.
-Без флагов запускается всё, кроме `--prefabs`. Код возврата 1 при наличии ошибок.
+Without flags everything runs except `--prefabs`. Exit code is 1 when errors are found.
 
-`--files` проверяет только перечисленные файлы, сохраняя контекст проекта
-(индекс asmdef, индекс GUID). `--baseline` скрывает проблемы, записанные
-`--write-baseline`, поэтому CI падает только на новых. `--max-file-size`
-принимает `20mb`, `500kb` или байты.
+`--files` checks only the listed files while keeping the project context
+(asmdef index, GUID index). `--baseline` hides the issues recorded by
+`--write-baseline`, so CI fails only on new ones. `--max-file-size`
+accepts `20mb`, `500kb` or bytes.
 
-### Проверки
+### Checks
 
-| Область | Что проверяется |
+| Area | What is checked |
 | --- | --- |
-| asmdef / asmref | синтаксис JSON (BOM допускается), обязательное имя, типы полей, дубли имён, неразрешённые ссылки (предупреждение — Unity их игнорирует), ссылка на себя, циклы ссылок, цель `.asmref` |
-| Packages | типы `manifest.json`, semver/local/git-версии, локальные пути, наличие `packages-lock.json` и расхождение версий |
-| .meta | отсутствующий meta, осиротевший meta, дубли GUID |
-| ProjectSettings | формат `ProjectVersion.txt` и рассинхрон версии схемы, сцены сборки (наличие и дубли), дубли тегов/слоёв/sorting layers, 32 слоя, GUID render pipeline, PlayerSettings (имена, версия, input handler, scripting backend), QualitySettings (имена и текущий индекс), InputManager (дубли и мёртвые оси), длина матрицы коллизий физики |
-| Addressables | группы и default group, дубли имён групп, GUID схем групп, дубли меток, GUID записей (Assets, Packages, PackageCache), дубли и конфликты адресов, незарегистрированные метки, профили (имена, записи, родители, значения) |
-| Localization | дубли и пустые ключи, дубли id, расхождение collection GUID, ссылка `m_SharedData`, дубли id в таблицах, осиротевшие записи, отсутствующие переводы, отсутствующие локализованные ассеты, паритет плейсхолдеров между локалями |
-| Prefabs (opt-in) | циклы вложенных префабов, отсутствующие source-префабы, `m_Script: {fileID: 0}`, несуществующие GUID скриптов |
-| ShaderGraph | последовательность JSON-документов, уникальные object id, ссылки графа, ссылки узлов/слотов рёбер, дубли reference name свойств, отсутствующие subgraph GUID |
-| Input System | JSON, дубли карт/действий, ссылки binding на действия, мёртвые binding, дубли id, дубли control scheme, неизвестные группы, синтаксис control path, осиротевшие composite-части |
-| Animator | ссылки fileID внутри файла, default state и state machine слоёв, дочерние state machine, переходы, циклы state machine, GUID motion, дубли параметров, условия на несуществующие параметры |
+| asmdef / asmref | JSON syntax (BOM allowed), required name, field types, duplicate names, unresolved references (warning — Unity ignores them), self-reference, reference cycles, `.asmref` target |
+| Packages | `manifest.json` types, semver/local/git versions, local paths, presence of `packages-lock.json` and version mismatch |
+| .meta | missing meta, orphaned meta, duplicate GUIDs |
+| ProjectSettings | `ProjectVersion.txt` format and schema version mismatch, build scenes (presence and duplicates), duplicate tags/layers/sorting layers, 32 layers, render pipeline GUID, PlayerSettings (names, version, input handler, scripting backend), QualitySettings (names and current index), InputManager (duplicates and dead axes), physics collision matrix length |
+| Addressables | groups and default group, duplicate group names, group schema GUIDs, duplicate labels, entry GUIDs (Assets, Packages, PackageCache), duplicate and conflicting addresses, unregistered labels, profiles (names, entries, parents, values) |
+| Localization | duplicate and empty keys, duplicate ids, collection GUID mismatch, `m_SharedData` reference, duplicate ids in tables, orphaned entries, missing translations, missing localized assets, placeholder parity between locales |
+| Prefabs (opt-in) | cycles in nested prefabs, missing source prefabs, `m_Script: {fileID: 0}`, non-existent script GUIDs |
+| ShaderGraph | sequence of JSON documents, unique object ids, graph references, node/edge slot references, duplicate property reference names, missing subgraph GUIDs |
+| Input System | JSON, duplicate maps/actions, binding references to actions, dead bindings, duplicate ids, duplicate control schemes, unknown groups, control path syntax, orphaned composite parts |
+| Animator | fileID references within the file, default state and state machines of layers, child state machines, transitions, state machine cycles, motion GUIDs, duplicate parameters, conditions on non-existent parameters |
 
-### Ограничения
+### Limitations
 
-- `--prefabs` включается вручную: в импортированных ассетах часто есть отсутствующие
-  скрипты, поэтому отчёт шумный на больших сторонних библиотеках.
-- Prefab/scene больше 20 MB пропускаются, чтобы не росла память (размер меняется
-  флагом `--max-file-size`).
-- Проверки Addressables/Localization рассчитаны на стандартную раскладку пакетов Unity.
-- CLI не зависит от Unity Editor и не видит editor-only состояние (настройки импорта,
-  platform overrides, результаты сборки).
+- `--prefabs` is enabled manually: imported assets often contain missing
+  scripts, so the report is noisy on large third-party libraries.
+- Prefabs/scenes larger than 20 MB are skipped to keep memory from growing (the size
+  is changed with the `--max-file-size` flag).
+- The Addressables/Localization checks assume the standard Unity package layout.
+- The CLI does not depend on the Unity Editor and does not see editor-only state
+  (import settings, platform overrides, build results).
 
-## Разработка
+## Development
 
 ```sh
 npm test                     # компиляция + node:test
@@ -81,17 +83,17 @@ npm run bench -- <project>   # полный прогон с бюджетом UNI
 npm run audit                # секреты и корпоративные строки
 ```
 
-`ci/unity-check.gitlab-ci.yml` — готовый шаблон GitLab job (SARIF-артефакт, baseline,
-проверка бенчмарка).
+`ci/unity-check.gitlab-ci.yml` is a ready-made GitLab job template (SARIF artifact,
+baseline, benchmark check).
 
-## Особенности Unity YAML
+## Unity YAML specifics
 
-- UTF-8 BOM в `.asmdef`/`.meta`/JSON;
-- многострочные single-quoted скаляры Unity (закрывающая кавычка в начале строки или
-  в конце строки) сворачиваются в пробелы до парсинга, смещения сохраняются;
-- `Samples~`, скрытые папки и содержимое `*.bundle` игнорируются, как в Unity.
+- UTF-8 BOM in `.asmdef`/`.meta`/JSON;
+- Unity multi-line single-quoted scalars (closing quote at the start of a line or
+  at the end of a line) are folded into spaces before parsing, offsets are preserved;
+- `Samples~`, hidden folders and `*.bundle` contents are ignored, as in Unity.
 
-## Откат
+## Rollback
 
-Удалить глобальные ссылки (`npm unlink -g unity-project-lsp`) и запись
-`lsp.unity-project` в конфиге OpenCode. В Unity-проект ничего не записывается.
+Remove the global links (`npm unlink -g unity-project-lsp`) and the
+`lsp.unity-project` entry in the OpenCode config. Nothing is written to the Unity project.

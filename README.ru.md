@@ -8,12 +8,18 @@
 ## Установка
 
 ```sh
+npm install -g unity-project-check
+```
+
+Появятся две глобальные команды: `unity-project-lsp` и `unity-project-check`.
+
+Из исходников:
+
+```sh
 npm install
 npm run compile
 npm link
 ```
-
-Появятся две глобальные команды: `unity-project-lsp` и `unity-project-check`.
 
 ## OpenCode
 

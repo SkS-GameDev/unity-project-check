@@ -8,12 +8,18 @@ Unity project structure checks: the `unity-project-check` CLI and the
 ## Installation
 
 ```sh
+npm install -g unity-project-check
+```
+
+This creates two global commands: `unity-project-lsp` and `unity-project-check`.
+
+From source:
+
+```sh
 npm install
 npm run compile
 npm link
 ```
-
-This creates two global commands: `unity-project-lsp` and `unity-project-check`.
 
 ## OpenCode
 

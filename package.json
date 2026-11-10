@@ -1,6 +1,6 @@
 {
   "name": "unity-project-check",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "bin": {
     "unity-project-lsp": "bin/unity-project-lsp.js",
@@ -30,5 +30,9 @@
     "out",
     "README.md",
     "README.ru.md"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkS-GameDev/unity-project-check.git"
+  }
 }
